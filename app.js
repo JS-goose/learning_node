@@ -27,6 +27,9 @@ const server = http.createServer((req, res) => {
     res.write("<html>");
     res.write("<head><title>THANK YOU!</title></head>");
     res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
+
+    res.statusCode = 302
+    res.setHeader('Location', '/')
     return res.end();
   }
   //   There are packages that set this automatically for us
