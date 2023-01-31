@@ -4,13 +4,14 @@ const http = require("http");
 const fs = require("fs");
 
 const server = http.createServer((req, res) => {
+  const num = Math.floor(Math.random());
   const url = req.url;
   // Routing
   if (url === "/submit") {
     res.write("<html>");
     res.write("<head><title>Send Your Message to the Server</title></head>");
     res.write(
-      "<body><form action='/message' method='POST'><input type='text' name='bacon text here'><button type='submit'>Submit</button></input></form></body></head>"
+      "<body><form action='/message' method='POST'><input type='text' name='user_input_field'><button type='submit'>Submit</button></input></form></body></head>"
     );
     res.write("</html>");
     // Return statement is not required to get a response but is used to end this function
@@ -20,7 +21,12 @@ const server = http.createServer((req, res) => {
   //   process.exit()
 
   if (url === "/message" && req.method === "POST") {
-    res.write();
+    // Write user input to a new file //
+    fs.writeFileSync(`userInput${num}`, "THIS WAS CREATED ON TH E Fly!w446535643564356");
+    // reroute user after the submit a message
+    res.write("<html>");
+    res.write("<head><title>THANK YOU!</title></head>");
+    res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
     return res.end();
   }
   //   There are packages that set this automatically for us
