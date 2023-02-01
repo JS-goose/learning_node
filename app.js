@@ -2,7 +2,9 @@
 // Single threaded execution with an event loop (multi-threaded via os)
 const http = require("http");
 const fs = require("fs");
+const { parse } = require("path");
 
+// createServer() has a built in event listener - with the example below listening for all req/res
 const server = http.createServer((req, res) => {
   const num = Math.floor(Math.random());
   const url = req.url;
@@ -21,15 +23,33 @@ const server = http.createServer((req, res) => {
   //   process.exit()
 
   if (url === "/message" && req.method === "POST") {
-    // Write user input to a new file //
-    fs.writeFileSync(`userInput${num}`, "THIS WAS CREATED ON TH E Fly!w446535643564356");
-    // reroute user after the submit a message
+    const body = [];
+    // .on() is an event listener that I'm registering here and it will listen for the data event //
+    // This event will fire whenever a new chunk of data is ready to be read (helps with buffers) //
+    req.on("data", (dataChunk) => {
+      // dataChunk = chunked data being streamed by Node
+      console.log(dataChunk);
+      body.push(dataChunk);
+    });
+
+    req.on("end", () => {
+      // Buffer is a global object made available by Node
+      // Because I'm writing the code, I know that this function will recieve text - if it were //
+      // something else like a file, then this would not work
+      const parsedBody = Buffer.concat(body).toString();
+      console.log(parsedBody);
+      const stringifiedBody = parsedBody.split("=")[1];
+      // Write user input to a new file //
+      fs.writeFileSync(`userInput${num}`, stringifiedBody);
+    });
+    // This response is sent BEFORE the writing to a file function above
     res.write("<html>");
     res.write("<head><title>THANK YOU!</title></head>");
     res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
 
-    res.statusCode = 302
-    res.setHeader('Location', '/')
+    // reroute user after the submit a message
+    // res.setHeader("Location", "/");
+    res.statusCode = 302;
     return res.end();
   }
   //   There are packages that set this automatically for us
