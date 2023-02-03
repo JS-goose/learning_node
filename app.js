@@ -39,17 +39,21 @@ const server = http.createServer((req, res) => {
       const parsedBody = Buffer.concat(body).toString();
       console.log(parsedBody);
       const stringifiedBody = parsedBody.split("=")[1];
-      // Write user input to a new file //
-      fs.writeFileSync(`userInput${num}`, stringifiedBody);
-      // This response is sent BEFORE the writing to a file function above executes
-      res.write("<html>");
-      res.write("<head><title>THANK YOU!</title></head>");
-      res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
-      // reroute user after the submit a message
-      // res.setHeader("Location", "/");
-      res.statusCode = 302;
-      return res.end();
+      // Write user input to a new file - however writeFileSync is synchronous and is a blocking function //
+      // fs.writeFileSync(`userInput${num}`, stringifiedBody);
+      // This writeFile function is non blocking and takes a callback which is where error handling can occur
+      fs.writeFile(`userInput${num}`, stringifiedBody, () => {
+        // reroute user after the submit a message
+        res.setHeader("Location", "/message");
+        res.statusCode = 302;
+        return res.end();
+      });
     });
+  } else if (url === "/message") {
+    res.write("<html>");
+    res.write("<head><title>THANK YOU!</title></head>");
+    res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
+    return res.end();
   }
   //   There are packages that set this automatically for us
   res.setHeader("Content-Type", "text/html");
