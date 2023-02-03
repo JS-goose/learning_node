@@ -32,7 +32,7 @@ const server = http.createServer((req, res) => {
       body.push(dataChunk);
     });
 
-    req.on("end", () => {
+    return req.on("end", () => {
       // Buffer is a global object made available by Node
       // Because I'm writing the code, I know that this function will recieve text - if it were //
       // something else like a file, then this would not work
@@ -41,16 +41,15 @@ const server = http.createServer((req, res) => {
       const stringifiedBody = parsedBody.split("=")[1];
       // Write user input to a new file //
       fs.writeFileSync(`userInput${num}`, stringifiedBody);
+      // This response is sent BEFORE the writing to a file function above executes
+      res.write("<html>");
+      res.write("<head><title>THANK YOU!</title></head>");
+      res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
+      // reroute user after the submit a message
+      // res.setHeader("Location", "/");
+      res.statusCode = 302;
+      return res.end();
     });
-    // This response is sent BEFORE the writing to a file function above
-    res.write("<html>");
-    res.write("<head><title>THANK YOU!</title></head>");
-    res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
-
-    // reroute user after the submit a message
-    // res.setHeader("Location", "/");
-    res.statusCode = 302;
-    return res.end();
   }
   //   There are packages that set this automatically for us
   res.setHeader("Content-Type", "text/html");
