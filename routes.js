@@ -5,7 +5,23 @@ function reqHandler(req, res) {
   const num = Math.floor(Math.random());
   const url = req.url;
   // Routing
-  if (url === "/submit") {
+  if (url === "/" && req.method === "GET") {
+    //   There are packages that set this automatically for us
+    res.setHeader("Content-Type", "text/html");
+    res.write("<html>");
+    res.write("<head><title>Hello From Node</title></head>");
+    res.write("<body><h1>HELLO FROM NODE</h1><p>All of this info is being pushed from the server side.</p></body>");
+    res.write("</html>");
+    return res.end();
+  } else if (url === "/users") {
+    res.write("<html>");
+    res.write("<head><title>Listed Users</title></head>");
+    res.write(
+      "<body><section><ul><li>Saranya - Admin</li><li>Stephen - Tech Admin</li><li>Aiden - Admin</li><li>Giana - Admin</li></ul></section></body>"
+    );
+    res.write("</html>");
+    return res.end();
+  } else if (url === "/submit") {
     res.write("<html>");
     res.write("<head><title>Send Your Message to the Server</title></head>");
     res.write(
@@ -17,6 +33,7 @@ function reqHandler(req, res) {
   }
   //   Hard quit of event loop - "powers down the server" - same as CTRL + C in terminal
   //   process.exit()
+
   if (url === "/message" && req.method === "POST") {
     const body = [];
     // .on() is an event listener that I'm registering here and it will listen for the data event //
@@ -50,13 +67,6 @@ function reqHandler(req, res) {
     res.write("<body><h1>Your Message Was Sent to the Server!</h1><p>We will contact you shortly :)</p></body>");
     return res.end();
   }
-  //   There are packages that set this automatically for us
-  res.setHeader("Content-Type", "text/html");
-  res.write("<html>");
-  res.write("<head><title>Hello From Node</title></head>");
-  res.write("<body><h1>HELLO FROM NODE</h1></body>");
-  res.write("</html>");
-  res.end();
 }
 
 // module is a global Node object that can be used to export //
