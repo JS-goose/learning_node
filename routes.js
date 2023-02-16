@@ -71,6 +71,7 @@ function reqHandler(req, res) {
   }
 
   if (url === '/createuser' && req.method === 'POST') {
+    res.setHeader('Content-Type', 'text/html')
     const userInputChunks = [];
     req.on('data', (dataChunk) => {
       console.log(dataChunk);
