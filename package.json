@@ -1,0 +1,20 @@
+{
+  "name": "learning_node",
+  "version": "1.0.0",
+  "description": "A course project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JS-goose/learning_node.git"
+  },
+  "author": "Jonathan Sexton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JS-goose/learning_node/issues"
+  },
+  "homepage": "https://github.com/JS-goose/learning_node#readme"
+}
