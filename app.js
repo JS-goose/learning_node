@@ -10,12 +10,9 @@
 const express = require('express');
 const app = express();
 
-app.use((req, res, next) => {
-  console.log('This is the next middleware');
-  next();
-});
+// * If there's middleware that should execute for all requests, it needs to be first in line //
 
-app.use((req, res, next) => {
+app.use('/bacon',(req, res, next) => {
     console.log('Another middleware')
     // By default, express will set the header type but I can override if necessary
     res.send('<h1>Response sent!</h1>')
