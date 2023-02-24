@@ -8,6 +8,6 @@ const routes = require("./routes");
 
 // createServer() has a built in event listener - with the example below listening for all req/res //
 // This event listener is never done so this function will always be in the event loop //
-const server = http.createServer(routes);
+const server = http.createServer();
 
 server.listen(3000);
