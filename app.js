@@ -24,8 +24,15 @@ const app = express();
 // });
 
 app.use('/users', (req, res) => {
-  res.send('<h1>This is the response for "/users"</h1><button>Home</button>');
+  res.send(
+    '<h1>Add User</h1><form action="/adduser" method="POST"><input type="text" name="username"><button type="submit">Submit</button></form>'
+  );
 });
+
+app.post('/adduser', (req, res) => {
+  res.send('This form was submitted correctly');
+});
+
 app.use((req, res) => {
   res.send('<h1>Response for "/"</h1>');
 });
