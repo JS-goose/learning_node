@@ -10,35 +10,17 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 // * If there's middleware that should execute for all requests, it needs to be first in line //
 // * By default, express will set the header type but I can override if necessary
 
-// app.use('/', (req, res, next) => {
-//   console.log('Here is the first middleware call');
-//   next();
-// });
-
-// app.use('/', (req, res, next) => {
-//   console.log('Here is the second middleware call');
-//   res.send('<h1>Response sent from second middleware!</h1>');
-// });
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/users', (req, res) => {
-  res.send(
-    '<h1>Add User</h1><form action="/adduser" method="POST"><input type="text" name="username"><button type="submit">Submit</button></form>'
-  );
-});
+app.use(adminRoutes);
+app.use(shopRoutes);
 
-app.post('/adduser', (req, res) => {
-  console.log(req.body);
-  res.send('This form was submitted correctly');
-});
-
-app.use((req, res) => {
-  res.send('<h1>Response for "/"</h1>');
-});
 app.listen(3000);
 // * app.listen does the same thing as these 2 lines of Node
 // createServer() has a built in event listener - with the example below listening for all req/res //
