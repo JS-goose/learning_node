@@ -9,7 +9,7 @@ router.get('/users', (req, res) => {
   );
 });
 
-router.use('/add-product', (req, res) => {
+router.get('/add-product', (req, res) => {
   res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'));
 });
 

@@ -23,7 +23,7 @@ app.use(adminRoutes);
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, './', 'views', '404.html'));
+  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
   // res.status(404).send(`<h1>Uh oh!</h1><p>You reached a page that doesn't exist</p>`);
 });
 
