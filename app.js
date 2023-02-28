@@ -9,6 +9,7 @@
 
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 // * If there's middleware that should execute for all requests, it needs to be first in line //
 // * By default, express will set the header type but I can override if necessary
@@ -22,6 +23,7 @@ const app = express();
 //   console.log('Here is the second middleware call');
 //   res.send('<h1>Response sent from second middleware!</h1>');
 // });
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/users', (req, res) => {
   res.send(
@@ -30,6 +32,7 @@ app.use('/users', (req, res) => {
 });
 
 app.post('/adduser', (req, res) => {
+  console.log(req.body);
   res.send('This form was submitted correctly');
 });
 
