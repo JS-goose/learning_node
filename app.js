@@ -21,6 +21,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(adminRoutes);
 app.use(shopRoutes);
 
+app.use((req, res, next) => {
+  res.status(404).send(`<h1>Uh oh!</h1><p>You reached a page that doesn't exist</p>`);
+});
+
 app.listen(3000);
 // * app.listen does the same thing as these 2 lines of Node
 // createServer() has a built in event listener - with the example below listening for all req/res //
