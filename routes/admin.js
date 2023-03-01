@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 // * Path is a core Node module and constructs paths that work on all operating systems
-const path = require('path');
+const rootDir = require('../utilities/rootDir');
 
 router.get('/users', (req, res) => {
   res.send(
@@ -9,8 +9,8 @@ router.get('/users', (req, res) => {
   );
 });
 
-router.get('/add-product', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'));
+router.get('/admin/add-product', (req, res) => {
+  res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 });
 
 router.post('/add-user', (req, res) => {
